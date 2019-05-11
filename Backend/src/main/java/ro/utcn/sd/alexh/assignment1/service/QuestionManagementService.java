@@ -11,8 +11,6 @@ import ro.utcn.sd.alexh.assignment1.exception.QuestionNotFoundException;
 import ro.utcn.sd.alexh.assignment1.exception.SelfVoteException;
 import ro.utcn.sd.alexh.assignment1.persistence.api.RepositoryFactory;
 
-import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,15 +36,7 @@ public class QuestionManagementService {
 
     @Transactional
     public QuestionDTO addQuestion(QuestionDTO questionDTO) {
-        Question question = new Question();
-        question.setScore(questionDTO.getScore());
-        question.setTags(Collections.emptyList()); // TODO: fix this
-        question.setAnswers(Collections.emptyList()); // TODO: fix this
-        question.setQuestionId(questionDTO.getQuestionId());
-        question.setCreationDateTime(Timestamp.valueOf(questionDTO.getCreationDateTime()));
-        question.setText(questionDTO.getText());
-        question.setTitle(questionDTO.getTitle());
-        question.setUserId(0); // TODO: fix this
+        Question question = QuestionDTO.ofDTO(questionDTO);
         return QuestionDTO.ofEntity(repositoryFactory.createQuestionRepository().save(question));
     }
 

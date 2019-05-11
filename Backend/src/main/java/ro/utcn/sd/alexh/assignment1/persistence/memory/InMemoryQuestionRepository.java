@@ -19,7 +19,7 @@ public class InMemoryQuestionRepository implements QuestionRepository {
      */
     @Override
     public synchronized Question save(Question question) {
-        if (question.getQuestionId() != null) {
+        if (question.getQuestionId() != null && question.getQuestionId() > 0) {
             data.put(question.getQuestionId(), question);
         } else {
             question.setQuestionId(currentId++);

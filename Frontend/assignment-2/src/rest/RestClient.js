@@ -2,7 +2,7 @@ const BASE_URL = "http://localhost:8080";
 
 export default class RestClient {
     constructor(username, password) {
-        this.authorization = "Basic" + btoa(username + ":" + password); 
+        this.authorization = "Basic " + btoa(username + ":" + password); 
     }
 
     loadAllQuestions() {

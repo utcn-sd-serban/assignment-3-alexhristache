@@ -94,7 +94,8 @@ class QuestionModel extends EventEmitter {
         this.emit("change", this.state);
     }
 
-    addQuestion(questionId, user, title, text, creationDateTime, tags, score, answers) {
+    addQuestion(questionId, user, title, text, creationDateTime, tags, score) {
+        debugger;
 
         return client.createQuestion(questionId, user, title, text, creationDateTime, score, tags)
             .then(question => {

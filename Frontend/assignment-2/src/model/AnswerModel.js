@@ -1,31 +1,32 @@
 import { EventEmitter } from "events";
+import {client} from "./UserModel";
 
 class AnswerModel extends EventEmitter {
     constructor() {
         super();
         this.state = {
-            answers: [{
-                answerId: 1,
-                questionId: 1,
-                user: "Andrei",
-                text: "My first answer to Q1",
-                creationDateTime: "2018-09-18T16:39:22",
-                score: 0,
-            }, {
-                answerId: 2,
-                questionId: 1,
-                user: "Andrei",
-                text: "My second answer to  Q1",
-                creationDateTime: "2018-09-18T16:39:22",
-                score: 0,
-            }, {
-                answerId: 3,
-                questionId: 2,
-                user: "Andrei",
-                text: "Answer blabla",
-                creationDateTime: "2018-09-18T16:39:22",
-                score: 50,
-            }],
+             answers: [], //{
+            //     answerId: 1,
+            //     questionId: 1,
+            //     user: "Andrei",
+            //     text: "My first answer to Q1",
+            //     creationDateTime: "2018-09-18T16:39:22",
+            //     score: 0,
+            // }, {
+            //     answerId: 2,
+            //     questionId: 1,
+            //     user: "Andrei",
+            //     text: "My second answer to  Q1",
+            //     creationDateTime: "2018-09-18T16:39:22",
+            //     score: 0,
+            // }, {
+            //     answerId: 3,
+            //     questionId: 2,
+            //     user: "Andrei",
+            //     text: "Answer blabla",
+            //     creationDateTime: "2018-09-18T16:39:22",
+            //     score: 50,
+            // }],
             newAnswer: {
                 answerId: -1,
                 questionId: -1,
@@ -36,6 +37,13 @@ class AnswerModel extends EventEmitter {
             },
             answersForQuestion: [],
         };
+    }
+
+    loadAnswersForQuestion(id) {
+        client.loadAnswersForQuestion(id).then(answers => {
+            this.state = {...this.state, answersForQuestion: answers};
+            this.emit("change", this.state);
+        });
     }
 
     findAnswersForQuestion(id) {

@@ -2,6 +2,10 @@ import answerModel from "../model/AnswerModel";
 
 class AnswerPresenter {
 
+    onInit(id) {
+        answerModel.loadAnswersForQuestion(id);
+    }
+
     onChange(id, property, value) {
         answerModel.changeAnswerProperty(id, property, value);
     }

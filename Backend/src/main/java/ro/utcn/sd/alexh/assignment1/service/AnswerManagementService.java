@@ -51,12 +51,19 @@ public class AnswerManagementService {
     }
 
     @Transactional
-    public void getAnswersForQuestion(List<Question> questionList) {
+    public void findAnswersForQuestion(List<Question> questionList) {
         for (Question question : questionList) {
             List<Answer> answers = repositoryFactory.createAnswerRepository().collectAnswersForQuestion(question.getQuestionId());
             answers.sort(Comparator.comparing(Answer::getScore).reversed());
             question.setAnswers(answers);
         }
+    }
+
+    @Transactional
+    public List<Answer> findAnswerForQuestion(Integer questionId) {
+        List<Answer> answers = repositoryFactory.createAnswerRepository().collectAnswersForQuestion(questionId);
+        answers.sort(Comparator.comparing(Answer::getScore).reversed());
+        return answers;
     }
 
     @Transactional

@@ -32,4 +32,23 @@ export default class RestClient {
             }
         }).then(response => response.json());
     }
+
+    loadAnswersForQuestion(questionId) {
+        return fetch(BASE_URL + "/questions/" + questionId + "/answers", {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    loadAllUsers() {
+        debugger;
+        return fetch(BASE_URL + "/users", {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
 }

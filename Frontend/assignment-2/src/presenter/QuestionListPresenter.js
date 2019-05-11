@@ -1,10 +1,13 @@
 import questionModel from "../model/QuestionModel";
 import answerModel from "../model/AnswerModel";
+import userModel from "../model/UserModel";
 
 class QuestionListPresenter {
 
     onInit() {
+        debugger;
         questionModel.loadQuestions();
+        userModel.loadUsers();
     }
 
     onCreateQuestion() {
@@ -12,7 +15,7 @@ class QuestionListPresenter {
     }
 
     onViewDetails(index) {
-        answerModel.findAnswersForQuestion(index);
+        answerModel.loadAnswersForQuestion(index);
         window.location.assign("#/question-details/" + index);
     }
 

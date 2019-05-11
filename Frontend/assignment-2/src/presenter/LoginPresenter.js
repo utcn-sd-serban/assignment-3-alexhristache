@@ -17,6 +17,10 @@ class LoginPresenter {
         }
     }
 
+    onInit() {
+        userModel.loadUsers();
+    }
+
 }
 
 const loginPresenter = new LoginPresenter();

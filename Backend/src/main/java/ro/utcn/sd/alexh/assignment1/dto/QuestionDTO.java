@@ -1,12 +1,18 @@
 package ro.utcn.sd.alexh.assignment1.dto;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import ro.utcn.sd.alexh.assignment1.entity.Question;
+import ro.utcn.sd.alexh.assignment1.entity.Tag;
+import ro.utcn.sd.alexh.assignment1.service.TagManagementService;
 
 import java.sql.Timestamp;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Data
+@RequiredArgsConstructor
 public class QuestionDTO {
     private Integer questionId;
     private String user;
@@ -32,14 +38,21 @@ public class QuestionDTO {
     public static Question ofDTO(QuestionDTO questionDTO) {
         Question question = new Question();
         question.setQuestionId(questionDTO.getQuestionId());
-        question.setUserId(4); // TODO
+        question.setUserId(Integer.parseInt(questionDTO.getUser())); // TODO
         question.setTitle(questionDTO.getTitle());
         question.setText(questionDTO.getText());
         question.setCreationDateTime(Timestamp.valueOf(questionDTO.getCreationDateTime()));
         question.setScore(questionDTO.getScore());
-        question.setAnswers(Collections.emptyList()); // TODO
-        question.setTags(Collections.emptyList()); // TODO
-        return question;
+        question.setAnswers(Collections.emptyList());
 
+        List<Tag> tags = new LinkedList<>();
+        String[] stringTags = questionDTO.getTags().split("\\s*,\\s*");
+        for (String stringTag : stringTags) {
+//            Tag tag = tagManagementService.addTag(null, stringTag);
+            Tag tag = new Tag(null, stringTag);
+            tags.add(tag);
+        }
+        question.setTags(tags);
+        return question;
     }
 }

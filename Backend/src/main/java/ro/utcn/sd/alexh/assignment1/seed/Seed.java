@@ -38,29 +38,29 @@ public class Seed implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        int GEN_COUNT = 10;
+        int GEN_COUNT = 110;
 
         if (tagService.listTags().isEmpty()) {
-            for (int i = 0; i < GEN_COUNT; i++) {
+            for (int i = 100; i < GEN_COUNT; i++) {
                 tagService.addTag(i, "Tag" + i);
             }
         }
 
         if (userService.listUsers().isEmpty()) {
-            for (int i = 0; i < GEN_COUNT; i++) {
+            for (int i = 100; i < GEN_COUNT; i++) {
                 userService.addUser(UserDTO.ofEntity(new User(i, i + "@email.com", "user" + i, passwordEncoder.encode("123"), "regular", 0, false)));
             }
         }
 
         if (questionService.listQuestions().isEmpty()) {
-            for (int i = 0; i < GEN_COUNT; i++) {
+            for (int i = 100; i < GEN_COUNT; i++) {
                 questionService.addQuestion(QuestionDTO.ofEntity(new Question(i, i, "Title" + i, "Text " + i, new Timestamp(System.currentTimeMillis()),
                         Collections.singletonList(tagService.findTagById(i)), 0)));
             }
         }
 
         if (answerService.listAnswers().isEmpty()) {
-            for (int i = 0; i < GEN_COUNT; i++) {
+            for (int i = 100; i < GEN_COUNT; i++) {
                 answerService.addAnswer(AnswerDTO.ofEntity(new Answer(i, i, i, "Answer text " + i, new Timestamp(System.currentTimeMillis()),0)));
             }
         }

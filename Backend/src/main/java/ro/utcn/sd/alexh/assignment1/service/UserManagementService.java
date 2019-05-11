@@ -1,11 +1,11 @@
 package ro.utcn.sd.alexh.assignment1.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.utcn.sd.alexh.assignment1.dto.UserDTO;
 import ro.utcn.sd.alexh.assignment1.entity.User;
-import ro.utcn.sd.alexh.assignment1.exception.LoginFailedException;
 import ro.utcn.sd.alexh.assignment1.exception.UserAlreadyExistsException;
 import ro.utcn.sd.alexh.assignment1.exception.UserNotFoundException;
 import ro.utcn.sd.alexh.assignment1.exception.UserNotLoggedException;
@@ -20,15 +20,28 @@ import java.util.stream.Collectors;
 public class UserManagementService {
 
     private final RepositoryFactory repositoryFactory;
+    private final PasswordEncoder passwordEncoder;
     private User loggedUser;
 
+//    @Transactional
+//    public void login(String username, String password) {
+//        Optional<User> maybeUser = repositoryFactory.createUserRepository().findByUsername(username);
+//        if (maybeUser.isPresent() && maybeUser.get().getPassword().equals(password)) {
+//            loggedUser = maybeUser.get();
+//        } else {
+//            throw new LoginFailedException();
+//        }
+//    }
+
     @Transactional
-    public void login(String username, String password) {
+    public UserDTO checkUserAndGetEncodedPassword(String username, String password) {
         Optional<User> maybeUser = repositoryFactory.createUserRepository().findByUsername(username);
-        if (maybeUser.isPresent() && maybeUser.get().getPassword().equals(password)) {
-            loggedUser = maybeUser.get();
+        if (maybeUser.isPresent() && maybeUser.get().getPassword().equals(passwordEncoder.encode(password))) {
+            UserDTO userDTO = UserDTO.ofEntity(maybeUser.get());
+            userDTO.setPassword(passwordEncoder.encode(password));
+            return userDTO;
         } else {
-            throw new LoginFailedException();
+            return new UserDTO();
         }
     }
 
@@ -76,5 +89,10 @@ public class UserManagementService {
     public UserDTO findUserById(Integer userId) {
         Optional<User> maybeUser = repositoryFactory.createUserRepository().findById(userId);
         return UserDTO.ofEntity(maybeUser.orElseThrow(UserNotFoundException::new));
+    }
+
+    @Transactional
+    public UserDTO findUserByUsername(String username) {
+        return UserDTO.ofEntity(repositoryFactory.createUserRepository().findByUsername(username).orElseThrow(UserNotFoundException::new));
     }
 }

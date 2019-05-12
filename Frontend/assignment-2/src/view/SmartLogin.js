@@ -14,7 +14,6 @@ export default class SmartLogin extends Component {
         this.state = mapModelStateToComponentState(userModel.state);
         this.listener = modelState => this.setState(mapModelStateToComponentState(modelState));
         userModel.addListener("change", this.listener);
-        loginPresenter.onInit();
     }
 
     componentWillUnmount() {

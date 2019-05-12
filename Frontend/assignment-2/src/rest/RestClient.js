@@ -14,12 +14,13 @@ export default class RestClient {
         }).then(response => response.json());
     }
 
-    createQuestion(questionId, user, title, text, creationDateTime, score, tags) {
+    createQuestion(questionId, user, username, title, text, creationDateTime, score, tags) {
         return fetch(BASE_URL + "/questions", {
             method: "POST",
             body: JSON.stringify({
                 questionId: questionId,
                 user: user,
+                username: username,
                 title: title,
                 text: text,
                 creationDateTime: creationDateTime,
@@ -45,6 +46,15 @@ export default class RestClient {
     loadAllUsers() {
         debugger;
         return fetch(BASE_URL + "/users", {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    loadLoggedUser() {
+        return fetch(BASE_URL + "/users/logged`", {
             method: "GET", 
             headers: {
                 "Authorization": this.authorization

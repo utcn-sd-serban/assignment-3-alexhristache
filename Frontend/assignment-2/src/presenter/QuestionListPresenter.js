@@ -6,8 +6,9 @@ class QuestionListPresenter {
 
     onInit() {
         debugger;
-        questionModel.loadQuestions();
         userModel.loadUsers();
+        questionModel.loadQuestions();
+        // userModel.loadLoggedUser();
     }
 
     onCreateQuestion() {

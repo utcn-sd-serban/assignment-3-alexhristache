@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import RestClient from "../rest/RestClient";
 
-export var client = new RestClient("user4", "123");
+export var client = new RestClient("-", "-");
 
 class UserModel extends EventEmitter {
     constructor() {
@@ -20,13 +20,21 @@ class UserModel extends EventEmitter {
             this.emit("change", this.state);
         });
     }
-
     
     findByUsername(username) {
         debugger;
         for (let user of this.state.users) {
             if (user.username === username) {
                 return user.userId;
+            }
+        }
+    }
+
+    findUsernameById(id) {
+        debugger;
+        for (let user of this.state.users) {
+            if (user.userId == id) {
+                return user.username;
             }
         }
     }
@@ -39,15 +47,18 @@ class UserModel extends EventEmitter {
         this.emit("change", this.state);
     }
 
-    login(username, password) {
-        this.state.loggedUser = "";
-        for (let user of this.state.users) {
-            if (user.username === username && user.password === password) {
-                this.state.loggedUser = username;
-            }
-        }
-        client = new RestClient(username, password);
+    login() {
+        debugger;
+        client = new RestClient(this.state.inputUsername, this.state.inputPassword);
+        this.state.loggedUser = this.state.inputUsername;
         this.emit("change", this.state);
+    }
+
+    loadLoggedUser() {
+        client.loadLoggedUser().then(user => {
+            this.state = { ...this.state, loggedUser: user };
+            this.emit("change", this.state);
+        });
     }
 
     addUser(userId, email, username, password, type, score, isBanned) {

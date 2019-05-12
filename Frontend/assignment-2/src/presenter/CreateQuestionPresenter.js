@@ -7,7 +7,7 @@ class CreateQuestionPresenter {
         var tempDate = new Date();
         var dateTime = tempDate.getFullYear() + '-' + (tempDate.getMonth() + 1) + '-' + tempDate.getDate() + ' ' + tempDate.getHours() + ':' + tempDate.getMinutes() + ':' + tempDate.getSeconds();
         debugger;
-        questionModel.addQuestion(questionModel.state.newQuestion.questionId, userModel.findByUsername(userModel.state.loggedUser), questionModel.state.newQuestion.title, questionModel.state.newQuestion.text, dateTime, questionModel.state.newQuestion.tags, 0)
+        questionModel.addQuestion(questionModel.state.newQuestion.questionId, userModel.findByUsername(userModel.state.loggedUser), userModel.state.loggedUser, questionModel.state.newQuestion.title, questionModel.state.newQuestion.text, dateTime, questionModel.state.newQuestion.tags, 0)
             .then(() => {
                 questionModel.changeNewQuestionProperty("questionId", 0);
                 questionModel.changeNewQuestionProperty("user", "");

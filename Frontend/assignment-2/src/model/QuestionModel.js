@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import { client } from "./UserModel";
+import userModel, { client } from "./UserModel";
 
 class QuestionModel extends EventEmitter {
     constructor() {
@@ -9,6 +9,7 @@ class QuestionModel extends EventEmitter {
             newQuestion: {
                 questionId: -1,
                 user: "",
+                username: "",
                 title: "",
                 text: "",
                 creationDateTime: "",
@@ -21,7 +22,11 @@ class QuestionModel extends EventEmitter {
     }
 
     loadQuestions() {
+        debugger;
         client.loadAllQuestions().then(questions => {
+            for (let question of questions) {
+                question.username = userModel.findUsernameById(question.user);
+            }
             this.state = { ...this.state, questions: questions };
             this.emit("change", this.state);
         });
@@ -73,8 +78,8 @@ class QuestionModel extends EventEmitter {
         this.emit("change", this.state);
     }
 
-    addQuestion(questionId, user, title, text, creationDateTime, tags, score) {
-        return client.createQuestion(questionId, user, title, text, creationDateTime, score, tags)
+    addQuestion(questionId, user, username, title, text, creationDateTime, tags, score) {
+        return client.createQuestion(questionId, user, username, title, text, creationDateTime, score, tags)
             .then(question => {
                 this.state = {
                     ...this.state,

@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import ro.utcn.sd.alexh.assignment1.entity.Question;
 import ro.utcn.sd.alexh.assignment1.entity.Tag;
-import ro.utcn.sd.alexh.assignment1.service.TagManagementService;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -15,7 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionDTO {
     private Integer questionId;
-    private String user;
+    private String user; // user ID
+    private String username;
     private String title;
     private String text;
     private String creationDateTime;
@@ -27,6 +27,7 @@ public class QuestionDTO {
         questionDTO.setQuestionId(question.getQuestionId());
         questionDTO.setCreationDateTime(question.getCreationDateTime().toString());
         questionDTO.setUser(question.getUserId().toString());
+        questionDTO.setUsername("");
         questionDTO.setScore(question.getScore());
         questionDTO.setText(question.getText());
         questionDTO.setTitle(question.getTitle());
@@ -38,7 +39,7 @@ public class QuestionDTO {
     public static Question ofDTO(QuestionDTO questionDTO) {
         Question question = new Question();
         question.setQuestionId(questionDTO.getQuestionId());
-        question.setUserId(Integer.parseInt(questionDTO.getUser())); // TODO
+        question.setUserId(Integer.parseInt(questionDTO.getUser()));
         question.setTitle(questionDTO.getTitle());
         question.setText(questionDTO.getText());
         question.setCreationDateTime(Timestamp.valueOf(questionDTO.getCreationDateTime()));

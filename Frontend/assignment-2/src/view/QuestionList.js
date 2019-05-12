@@ -33,7 +33,7 @@ const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTa
                     {
                         questions.map((question) => (
                             <tr key={question.questionId}>
-                                <td>{question.user}</td>
+                                <td>{question.username}</td>
                                 <td>{question.title}</td>
                                 <td>{question.text}</td>
                                 <td>{question.creationDateTime}</td>

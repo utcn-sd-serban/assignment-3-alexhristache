@@ -2,7 +2,12 @@ package ro.utcn.sd.alexh.assignment1.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ro.utcn.sd.alexh.assignment1.command.Command;
+import ro.utcn.sd.alexh.assignment1.command.Invoker;
+import ro.utcn.sd.alexh.assignment1.command.user.ReadAllUsersCommand;
+import ro.utcn.sd.alexh.assignment1.command.user.ReadLoggedUser;
 import ro.utcn.sd.alexh.assignment1.dto.UserDTO;
+import ro.utcn.sd.alexh.assignment1.dto.UserListDTO;
 import ro.utcn.sd.alexh.assignment1.service.UserManagementService;
 import ro.utcn.sd.alexh.assignment1.service.UserUserDetailsService;
 
@@ -14,10 +19,12 @@ public class UsersController {
 
     private final UserManagementService userManagementService;
     private final UserUserDetailsService userUserDetailsService;
+    private final Invoker invoker;
 
     @GetMapping("/users")
     public List<UserDTO> readAll() {
-        return userManagementService.listUsers();
+        invoker.setCommand(new ReadAllUsersCommand(userManagementService));
+        return ((UserListDTO) invoker.invoke()).getList();
     }
 
     @GetMapping("/users/{id}")
@@ -32,11 +39,7 @@ public class UsersController {
 
     @GetMapping("/users/logged")
     public UserDTO getLoggedUser() {
-        return UserDTO.ofEntity(userUserDetailsService.loadCurrentUser());
-    }
-
-    @GetMapping("/login/{username}/{password}")
-    public UserDTO login(@PathVariable String username, @PathVariable String password) {
-        return userManagementService.checkUserAndGetEncodedPassword(username, password);
+        invoker.setCommand(new ReadLoggedUser(userUserDetailsService));
+        return (UserDTO) invoker.invoke();
     }
 }

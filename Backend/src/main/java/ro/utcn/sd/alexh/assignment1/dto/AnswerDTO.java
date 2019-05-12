@@ -4,7 +4,7 @@ import lombok.Data;
 import ro.utcn.sd.alexh.assignment1.entity.Answer;
 
 @Data
-public class AnswerDTO {
+public class AnswerDTO implements DTO {
     private Integer answerId;
     private Integer questionId;
     private String user;

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @RequiredArgsConstructor
-public class QuestionDTO {
+public class QuestionDTO implements DTO {
     private Integer questionId;
     private String user; // user ID
     private String username;

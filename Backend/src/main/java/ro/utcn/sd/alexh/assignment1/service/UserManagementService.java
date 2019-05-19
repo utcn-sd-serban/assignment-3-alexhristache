@@ -20,44 +20,6 @@ import java.util.stream.Collectors;
 public class UserManagementService {
 
     private final RepositoryFactory repositoryFactory;
-    private final PasswordEncoder passwordEncoder;
-    private User loggedUser;
-
-//    @Transactional
-//    public void login(String username, String password) {
-//        Optional<User> maybeUser = repositoryFactory.createUserRepository().findByUsername(username);
-//        if (maybeUser.isPresent() && maybeUser.get().getPassword().equals(password)) {
-//            loggedUser = maybeUser.get();
-//        } else {
-//            throw new LoginFailedException();
-//        }
-//    }
-
-    @Transactional
-    public UserDTO checkUserAndGetEncodedPassword(String username, String password) {
-        Optional<User> maybeUser = repositoryFactory.createUserRepository().findByUsername(username);
-        if (maybeUser.isPresent() && maybeUser.get().getPassword().equals(passwordEncoder.encode(password))) {
-            UserDTO userDTO = UserDTO.ofEntity(maybeUser.get());
-            userDTO.setPassword(passwordEncoder.encode(password));
-            return userDTO;
-        } else {
-            return new UserDTO();
-        }
-    }
-
-    @Transactional
-    public UserDTO getLoggedUser() {
-        if (loggedUser != null) {
-            return UserDTO.ofEntity(loggedUser);
-        } else {
-            throw new UserNotLoggedException();
-        }
-    }
-
-    @Transactional
-    public void logout() {
-        loggedUser = null;
-    }
 
     @Transactional
     public List<UserDTO> listUsers() {
@@ -68,14 +30,7 @@ public class UserManagementService {
 
     @Transactional
     public UserDTO addUser(UserDTO userDTO) {
-        User user = new User();
-        user.setUserId(userDTO.getUserId());
-        user.setEmail(userDTO.getEmail());
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setType(userDTO.getType());
-        user.setScore(userDTO.getScore());
-        user.setBanned(userDTO.isBanned());
+        User user = UserDTO.ofDTO(userDTO);
 
         Optional<User> maybeUser = repositoryFactory.createUserRepository().findByUsername(user.getUsername());
         if (maybeUser.isPresent()) {

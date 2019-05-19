@@ -25,4 +25,16 @@ public class UserDTO implements DTO {
 
         return userDTO;
     }
+
+    public static User ofDTO(UserDTO userDTO) {
+        User user = new User();
+        user.setUserId(userDTO.getUserId());
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+        user.setPassword(userDTO.getPassword());
+        user.setType(userDTO.getType());
+        user.setScore(userDTO.getScore());
+        user.setBanned(userDTO.isBanned());
+        return user;
+    }
 }

@@ -22,7 +22,6 @@ class QuestionModel extends EventEmitter {
     }
 
     loadQuestions() {
-        debugger;
         client.loadAllQuestions().then(questions => {
             for (let question of questions) {
                 question.username = userModel.findUsernameById(question.user);

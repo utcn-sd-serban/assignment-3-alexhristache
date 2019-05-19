@@ -2,23 +2,25 @@ package ro.utcn.sd.alexh.assignment1.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ro.utcn.sd.alexh.assignment1.command.Command;
 import ro.utcn.sd.alexh.assignment1.command.Invoker;
 import ro.utcn.sd.alexh.assignment1.command.answer.CreateAnswerCommand;
+import ro.utcn.sd.alexh.assignment1.command.answer.DeleteAnswerCommand;
 import ro.utcn.sd.alexh.assignment1.command.answer.ReadAllAnswersCommand;
 import ro.utcn.sd.alexh.assignment1.command.answer.ReadAnswersForQuestion;
 import ro.utcn.sd.alexh.assignment1.dto.AnswerDTO;
 import ro.utcn.sd.alexh.assignment1.dto.AnswerListDTO;
 import ro.utcn.sd.alexh.assignment1.service.AnswerManagementService;
+import ro.utcn.sd.alexh.assignment1.service.UserManagementService;
+import ro.utcn.sd.alexh.assignment1.service.UserUserDetailsService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 public class AnswersController {
 
     private final AnswerManagementService answerManagementService;
+    private final UserUserDetailsService userDetailsService;
     private final Invoker invoker;
 
     @GetMapping("/answers")
@@ -41,6 +43,13 @@ public class AnswersController {
     @PostMapping("/answers")
     public AnswerDTO create(@RequestBody AnswerDTO dto) {
         invoker.setCommand(new CreateAnswerCommand(dto, answerManagementService));
+        return (AnswerDTO) invoker.invoke();
+    }
+
+    @DeleteMapping("/answers/{id}")
+    public AnswerDTO delete(@PathVariable Integer id) {
+        Integer userId = userDetailsService.loadCurrentUser().getUserId();
+        invoker.setCommand(new DeleteAnswerCommand(id, userId, answerManagementService));
         return (AnswerDTO) invoker.invoke();
     }
 }

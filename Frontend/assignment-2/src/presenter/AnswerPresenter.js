@@ -3,6 +3,8 @@ import answerModel from "../model/AnswerModel";
 class AnswerPresenter {
 
     onInit(id) {
+        debugger;
+        answerModel.loadAnswers();
         answerModel.loadAnswersForQuestion(id);
     }
 
@@ -11,7 +13,9 @@ class AnswerPresenter {
     }
 
     onRemove(id) {
-        answerModel.removeAnswer(id);
+        debugger;
+        //answerModel.removeAnswer(id);
+        answerModel.deleteAnswer(id);
     }
 
     onCreateAnswer(id) {

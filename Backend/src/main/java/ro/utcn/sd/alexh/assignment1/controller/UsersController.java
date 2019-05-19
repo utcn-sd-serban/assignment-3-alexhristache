@@ -2,7 +2,6 @@ package ro.utcn.sd.alexh.assignment1.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ro.utcn.sd.alexh.assignment1.command.Command;
 import ro.utcn.sd.alexh.assignment1.command.Invoker;
 import ro.utcn.sd.alexh.assignment1.command.user.ReadAllUsersCommand;
 import ro.utcn.sd.alexh.assignment1.command.user.ReadLoggedUser;
@@ -37,7 +36,7 @@ public class UsersController {
         return userManagementService.addUser(dto);
     }
 
-    @GetMapping("/users/logged")
+    @GetMapping("/current-user")
     public UserDTO getLoggedUser() {
         invoker.setCommand(new ReadLoggedUser(userUserDetailsService));
         return (UserDTO) invoker.invoke();

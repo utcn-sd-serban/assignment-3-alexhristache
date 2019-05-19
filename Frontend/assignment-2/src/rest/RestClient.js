@@ -1,11 +1,15 @@
+import answerModel from "../model/AnswerModel";
+
 const BASE_URL = "http://localhost:8080";
 
 export default class RestClient {
     constructor(username, password) {
+        debugger;
         this.authorization = "Basic " + btoa(username + ":" + password); 
     }
 
     loadAllQuestions() {
+        debugger;
         return fetch(BASE_URL + "/questions", {
             method: "GET", 
             headers: {
@@ -34,6 +38,33 @@ export default class RestClient {
         }).then(response => response.json());
     }
 
+    loadAllAnswers() {
+        return fetch(BASE_URL + "/answers", {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    createAnswer(answerId, questionId, user, text, creationDateTime, score) {
+        return fetch(BASE_URL + "/answers", {
+            method: "POST",
+            body: JSON.stringify({
+                answerId: answerId,
+                questionId: questionId,
+                user: answerModel.findByUsername(user).userId,
+                text: text,
+                creationDateTime: creationDateTime,
+                score: score
+            }),
+            headers: {
+                "Authorization": this.authorization,
+                "Content-Type": "application/json"
+            }
+        }).then(response => response.json());
+    }
+
     loadAnswersForQuestion(questionId) {
         return fetch(BASE_URL + "/questions/" + questionId + "/answers", {
             method: "GET", 
@@ -54,8 +85,17 @@ export default class RestClient {
     }
 
     loadLoggedUser() {
-        return fetch(BASE_URL + "/users/logged`", {
+        return fetch(BASE_URL + "/current-user", {
             method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    deleteAnswer(answerId) {
+        return fetch(BASE_URL + "/answers/" + answerId, {
+            method: "DELETE", 
             headers: {
                 "Authorization": this.authorization
             }

@@ -1,32 +1,11 @@
 import { EventEmitter } from "events";
-import {client} from "./UserModel";
+import userModel, {client} from "./UserModel";
 
 class AnswerModel extends EventEmitter {
     constructor() {
         super();
         this.state = {
-             answers: [], //{
-            //     answerId: 1,
-            //     questionId: 1,
-            //     user: "Andrei",
-            //     text: "My first answer to Q1",
-            //     creationDateTime: "2018-09-18T16:39:22",
-            //     score: 0,
-            // }, {
-            //     answerId: 2,
-            //     questionId: 1,
-            //     user: "Andrei",
-            //     text: "My second answer to  Q1",
-            //     creationDateTime: "2018-09-18T16:39:22",
-            //     score: 0,
-            // }, {
-            //     answerId: 3,
-            //     questionId: 2,
-            //     user: "Andrei",
-            //     text: "Answer blabla",
-            //     creationDateTime: "2018-09-18T16:39:22",
-            //     score: 50,
-            // }],
+             answers: [],
             newAnswer: {
                 answerId: -1,
                 questionId: -1,
@@ -39,6 +18,16 @@ class AnswerModel extends EventEmitter {
         };
     }
 
+    loadAnswers() {
+        client.loadAllAnswers().then(answers => {
+            for (let answer of answers) {
+                answer.user = userModel.findUsernameById(answer.user);
+            }
+            this.state = { ...this.state, answers: answers };
+            this.emit("change", this.state);
+        });
+    }
+
     loadAnswersForQuestion(id) {
         client.loadAnswersForQuestion(id).then(answers => {
             this.state = {...this.state, answersForQuestion: answers};
@@ -46,20 +35,24 @@ class AnswerModel extends EventEmitter {
         });
     }
 
-    findAnswersForQuestion(id) {
-        let answersToFind = [];
-        for (let answer of this.state.answers) {
-            if (answer.questionId === id) {
-                answersToFind.push(answer);
-            }
-        }
-        this.state.answersForQuestion = answersToFind;
-        this.emit("change", this.state);
+    deleteAnswer(id) {
+        client.deleteAnswer(id).then(answer => {
+            this.loadAnswersForQuestion(answer.questionId);
+        });
     }
 
     findById(id) {
         for (let answer of this.state.answers) {
             if (answer.answerId === id) {
+                return answer;
+            }
+        }
+    }
+
+    findByUsername(username) {
+        debugger;
+        for (let answer of this.state.answers) {
+            if (answer.user === username) {
                 return answer;
             }
         }
@@ -85,22 +78,18 @@ class AnswerModel extends EventEmitter {
             answers: newAnswers
         };
         this.emit("change", this.state);
-        // return newAnswers;
     }
 
     addAnswer(answerId, questionId, user, text, creationDateTime, score) {
-        this.state = {
-            ...this.state,
-            answers: this.state.answers.concat([{
-                answerId,
-                questionId,
-                user,
-                text,
-                creationDateTime,
-                score
-            }])
-        };
-        this.emit("change", this.state);
+        debugger;
+        return client.createAnswer(answerId, questionId, user, text, creationDateTime, score)
+            .then(answer => {
+                this.state = {
+                    ...this.state,
+                    answers: this.state.answers.concat([answer])
+                };
+                this.emit("change", this.state);
+            });
     }
 
     changeNewAnswerProperty(property, value) {

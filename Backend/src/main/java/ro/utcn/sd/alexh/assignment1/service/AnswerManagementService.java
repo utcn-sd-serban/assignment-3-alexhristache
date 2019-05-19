@@ -29,7 +29,7 @@ public class AnswerManagementService {
     public AnswerDTO addAnswer(AnswerDTO answerDTO) {
         Answer answer = new Answer();
         answer.setAnswerId(answerDTO.getAnswerId());
-        answer.setUserId(Integer.parseInt(answerDTO.getUser())); // TODO
+        answer.setUserId(answerDTO.getUserId()); // TODO
         answer.setQuestionId(answerDTO.getQuestionId());
         answer.setText(answerDTO.getText());
         answer.setCreationDateTime(Timestamp.valueOf(answerDTO.getCreationDateTime()));
@@ -73,8 +73,6 @@ public class AnswerManagementService {
             Answer answer = maybeAnswer.get();
             if (answer.getUserId().equals(userId)) {
                 repositoryFactory.createAnswerRepository().remove(answer);
-            } else {
-                throw new IllegalUserOperationException();
             }
         } else {
             throw new AnswerNotFoundException();

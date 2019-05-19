@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import RestClient from "../rest/RestClient";
 
-export var client = new RestClient("-", "-");
+export var client;
 
 class UserModel extends EventEmitter {
     constructor() {

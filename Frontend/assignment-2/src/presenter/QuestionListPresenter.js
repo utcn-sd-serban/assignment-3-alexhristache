@@ -8,7 +8,7 @@ class QuestionListPresenter {
         debugger;
         userModel.loadUsers();
         questionModel.loadQuestions();
-        // userModel.loadLoggedUser();
+        answerModel.loadAnswers();
     }
 
     onCreateQuestion() {

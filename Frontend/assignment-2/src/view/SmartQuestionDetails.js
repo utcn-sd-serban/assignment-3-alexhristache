@@ -41,7 +41,7 @@ export default class SmartQuestionDetails extends Component {
             <div>
                 <QuestionDetails
                     questionId={this.state.question.questionId}
-                    user={this.state.question.user}
+                    user={this.state.question.username}
                     title={this.state.question.title}
                     text={this.state.question.text}
                     creationDateTime={this.state.question.creationDateTime}

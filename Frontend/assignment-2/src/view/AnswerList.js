@@ -10,7 +10,7 @@ const AnswerList = ({ answers, onRemove, onEdit, onUpvote, onDownvote }) => (
                         <li>
                             <ul key={answer.answerId}>
                                 <li>{answer.text} </li>
-                                <li>Posted by: {answer.user}</li>
+                                <li>Posted by: {answer.username}</li>
                                 <li>{answer.creationDateTime}</li>
                                 <li>Score: {answer.score}</li>
                                 <button onClick={() => onEdit(answer.answerId)}>Edit</button>

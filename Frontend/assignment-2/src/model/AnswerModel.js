@@ -10,6 +10,7 @@ class AnswerModel extends EventEmitter {
                 answerId: -1,
                 questionId: -1,
                 user: "",
+                username: "",
                 text: "",
                 creationDateTime: "",
                 score: 0,
@@ -20,6 +21,9 @@ class AnswerModel extends EventEmitter {
 
     loadAnswers() {
         client.loadAllAnswers().then(answers => {
+            for (let answer of answers) {
+                answer.username = userModel.findUsernameById(answer.userId);
+            }
             this.state = { ...this.state, answers: answers };
             this.emit("change", this.state);
         });
@@ -27,6 +31,9 @@ class AnswerModel extends EventEmitter {
 
     loadAnswersForQuestion(id) {
         client.loadAnswersForQuestion(id).then(answers => {
+            for (let answer of answers) {
+                answer.username = userModel.findUsernameById(answer.user);
+            }
             this.state = {...this.state, answersForQuestion: answers};
             this.emit("change", this.state);
         });

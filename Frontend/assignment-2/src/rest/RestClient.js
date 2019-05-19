@@ -1,5 +1,3 @@
-import answerModel from "../model/AnswerModel";
-
 const BASE_URL = "http://localhost:8080";
 
 export default class RestClient {
@@ -60,8 +58,7 @@ export default class RestClient {
             }),
             headers: {
                 "Authorization": this.authorization,
-                "Content-Type": "application/json",
-                //"Accept" : "application/json"
+                "Content-Type": "application/json"
             }
         }).then(response => response.json());
     }

@@ -20,9 +20,6 @@ class AnswerModel extends EventEmitter {
 
     loadAnswers() {
         client.loadAllAnswers().then(answers => {
-            for (let answer of answers) {
-                answer.user = userModel.findUsernameById(answer.user);
-            }
             this.state = { ...this.state, answers: answers };
             this.emit("change", this.state);
         });
@@ -56,6 +53,18 @@ class AnswerModel extends EventEmitter {
                 return answer;
             }
         }
+    }
+
+    editAnswer(answerId, questionId, userId, text, creationDateTime, score) {
+        return client.editAnswer(answerId, questionId, userId, text, creationDateTime, score)
+            .then(answer => {
+                // this.state = {
+                //     ...this.state,
+                //     answers: this.state.answers.concat([answer])
+                // };
+                this.loadAnswersForQuestion(questionId); // idk
+                //this.emit("change", this.state);
+            });
     }
 
     changeStateProperty(property, value) {

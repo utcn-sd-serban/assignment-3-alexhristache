@@ -14,7 +14,6 @@ class AnswerPresenter {
 
     onRemove(id) {
         debugger;
-        //answerModel.removeAnswer(id);
         answerModel.deleteAnswer(id);
     }
 

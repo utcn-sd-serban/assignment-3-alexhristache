@@ -20,8 +20,9 @@ class CreateAnswerPresenter {
     onEditSubmit(id) {
         debugger;
         let answer = answerModel.findById(id);
-        answerModel.deleteAnswer(id);
-        answerModel.addAnswer(id, answer.questionId, answer.user, answerModel.state.newAnswer.text, answer.creationDateTime, answer.score);
+        //answerModel.deleteAnswer(id);
+        //answerModel.addAnswer(id, answer.questionId, answer.userId, answerModel.state.newAnswer.text, answer.creationDateTime, answer.score);
+        answerModel.editAnswer(id, answer.questionId, answer.userId, answerModel.state.newAnswer.text, answer.creationDateTime, answer.score);
         window.location.assign("#/question-details/" + id);
     }
 }

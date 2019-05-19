@@ -3,10 +3,7 @@ package ro.utcn.sd.alexh.assignment1.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ro.utcn.sd.alexh.assignment1.command.Invoker;
-import ro.utcn.sd.alexh.assignment1.command.answer.CreateAnswerCommand;
-import ro.utcn.sd.alexh.assignment1.command.answer.DeleteAnswerCommand;
-import ro.utcn.sd.alexh.assignment1.command.answer.ReadAllAnswersCommand;
-import ro.utcn.sd.alexh.assignment1.command.answer.ReadAnswersForQuestion;
+import ro.utcn.sd.alexh.assignment1.command.answer.*;
 import ro.utcn.sd.alexh.assignment1.dto.AnswerDTO;
 import ro.utcn.sd.alexh.assignment1.dto.AnswerListDTO;
 import ro.utcn.sd.alexh.assignment1.service.AnswerManagementService;
@@ -50,6 +47,13 @@ public class AnswersController {
     public AnswerDTO delete(@PathVariable Integer id) {
         Integer userId = userDetailsService.loadCurrentUser().getUserId();
         invoker.setCommand(new DeleteAnswerCommand(id, userId, answerManagementService));
+        return (AnswerDTO) invoker.invoke();
+    }
+
+    @PutMapping("/answers/{id}")
+    public AnswerDTO edit(@RequestBody AnswerDTO dto, @PathVariable Integer id) {
+        Integer userId = userDetailsService.loadCurrentUser().getUserId();
+        invoker.setCommand(new EditAnswerCommand(userId, dto, answerManagementService));
         return (AnswerDTO) invoker.invoke();
     }
 }

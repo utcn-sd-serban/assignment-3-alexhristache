@@ -47,20 +47,21 @@ export default class RestClient {
         }).then(response => response.json());
     }
 
-    createAnswer(answerId, questionId, user, text, creationDateTime, score) {
-        return fetch(BASE_URL + "/answers", {
+    createAnswer(answerId, questionId, userId, text, creationDateTime, score) {
+        return fetch(BASE_URL + "/answers/", {
             method: "POST",
             body: JSON.stringify({
                 answerId: answerId,
                 questionId: questionId,
-                user: answerModel.findByUsername(user).userId,
+                userId: userId,
                 text: text,
                 creationDateTime: creationDateTime,
                 score: score
             }),
             headers: {
                 "Authorization": this.authorization,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                //"Accept" : "application/json"
             }
         }).then(response => response.json());
     }
@@ -98,6 +99,24 @@ export default class RestClient {
             method: "DELETE", 
             headers: {
                 "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    editAnswer(answerId, questionId, userId, text, creationDateTime, score) {
+        return fetch(BASE_URL + "/answers/" + answerId, {
+            method: "PUT",
+            body: JSON.stringify({
+                answerId: answerId,
+                questionId: questionId,
+                userId: userId,
+                text: text,
+                creationDateTime: creationDateTime,
+                score: score
+            }),
+            headers: {
+                "Authorization": this.authorization,
+                "Content-Type": "application/json"
             }
         }).then(response => response.json());
     }

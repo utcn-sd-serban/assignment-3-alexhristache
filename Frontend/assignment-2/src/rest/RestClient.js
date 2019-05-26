@@ -14,6 +14,24 @@ export default class RestClient {
         }).then(response => response.json());
     }
 
+    filterQuestionsByTitle(title) {
+        return fetch(BASE_URL + "/questions?title=" + title, {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
+    filterQuestionsByTag(tag) {
+        return fetch(BASE_URL + "/questions?tag=" + tag, {
+            method: "GET", 
+            headers: {
+                "Authorization": this.authorization
+            }
+        }).then(response => response.json());
+    }
+
     createQuestion(questionId, user, username, title, text, creationDateTime, score, tags) {
         return fetch(BASE_URL + "/questions", {
             method: "POST",
@@ -113,5 +131,33 @@ export default class RestClient {
                 "Content-Type": "application/json"
             }
         }).then(response => response.json());
+    }
+
+    voteQuestion(id, vote) {
+        return fetch(BASE_URL + "/vote-question", {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+                vote: vote
+            }),
+            headers: {
+                "Authorization": this.authorization,
+                "Content-Type": "application/json"
+            }
+        });
+    }
+
+    voteAnswer(id, vote) {
+        return fetch(BASE_URL + "/vote-answer", {
+            method: "POST",
+            body: JSON.stringify({
+                id: id,
+                vote: vote
+            }),
+            headers: {
+                "Authorization": this.authorization,
+                "Content-Type": "application/json"
+            }
+        });
     }
 }

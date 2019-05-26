@@ -35,6 +35,16 @@ public class QuestionsController {
         return (QuestionDTO) invoker.invoke(new ReadQuestionCommand(id, questionManagementService));
     }
 
+    @GetMapping("/questions?title={title}")
+    public List<QuestionDTO> filterByTitle(@PathVariable String title) {
+        return questionManagementService.listQuestionsByText(title);
+    }
+
+    @GetMapping("/questions?tag={tag}")
+    public List<QuestionDTO> filterByTag(@PathVariable String tag) {
+        return questionManagementService.listQuestionsByTag(tag);
+    }
+
     @PostMapping("/questions")
     public QuestionDTO create(@RequestBody QuestionDTO dto) {
         return (QuestionDTO) invoker.invoke(new CreateQuestionCommand(dto, questionManagementService));

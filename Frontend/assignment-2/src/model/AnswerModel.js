@@ -118,19 +118,10 @@ class AnswerModel extends EventEmitter {
     }
 
     vote(id, vote) {
-        let newAnswers = [];
-        for (let answer of this.state.answers) {
-            if (answer.answerId === id) {
-                answer.score = answer.score + vote;
-            }
-            newAnswers.push(answer);
-        }
-
-        this.state = {
-            ...this.state,
-            answers: newAnswers
-        }
-        this.emit("change", this.state);
+        return client.voteAnswer(id, vote)
+            .then(() => {
+                this.loadAnswersForQuestion(id);
+            });
     }
 }
 

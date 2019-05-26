@@ -47,39 +47,29 @@ class QuestionModel extends EventEmitter {
         this.emit("change", this.state);
     }
 
-    filterByTag(filter) {
-        let newQuestions = []
-        for (let question of this.state.questions) {
-            if (question.tags.includes(filter)) {
-                newQuestions.push(question);
+    filterByTag() {
+        client.filterQuestionsByTag(this.state.filter).then(questions => {
+            for (let question of questions) {
+                question.username = userModel.findUsernameById(question.user);
             }
-        }
-
-        this.state = {
-            ...this.state,
-            filteredQuestions: newQuestions
-        }
-        this.emit("change", this.state);
+            this.state = { ...this.state, filteredQuestions: questions };
+            this.emit("change", this.state);
+        });
     }
 
-    filterByText(filter) {
-        let newQuestions = []
-        for (let question of this.state.questions) {
-            if (question.title.includes(filter)) {
-                newQuestions.push(question);
+    filterByText() {
+        client.filterQuestionsByTitle(this.state.filter).then(questions => {
+            for (let question of questions) {
+                question.username = userModel.findUsernameById(question.user);
             }
-        }
-
-        this.state = {
-            ...this.state,
-            filteredQuestions: newQuestions
-        }
-        this.emit("change", this.state);
+            this.state = { ...this.state, filteredQuestions: questions };
+            this.emit("change", this.state);
+        });
     }
 
     addQuestion(questionId, user, username, title, text, creationDateTime, tags, score) {
         return client.createQuestion(questionId, user, username, title, text, creationDateTime, score, tags);
-            // .then(question => this.appendQuestion(question));
+        // .then(question => this.appendQuestion(question));
     }
 
     appendQuestion(question) {
@@ -102,19 +92,10 @@ class QuestionModel extends EventEmitter {
     }
 
     vote(id, vote) {
-        let newQuestions = [];
-        for (let question of this.state.questions) {
-            if (question.questionId === id) {
-                question.score = question.score + vote;
-            }
-            newQuestions.push(question);
-        }
-
-        this.state = {
-            ...this.state,
-            questions: newQuestions
-        }
-        this.emit("change", this.state);
+        return client.voteQuestion(id, vote)
+            .then(() => {
+                this.loadQuestions();
+            });
     }
 }
 

@@ -91,7 +91,7 @@ public class QuestionManagementService {
     }
 
     @Transactional
-    public void addVote(QuestionVote questionVote) {
+    public QuestionVote addVote(QuestionVote questionVote) {
 
         if (questionVote.getUserId().equals(findQuestionByIdInside(questionVote.getQuestionId()).getUserId())) {
             throw new SelfVoteException();
@@ -100,6 +100,7 @@ public class QuestionManagementService {
         Question question = findQuestionByIdInside(questionVote.getQuestionId());
         question.setScore(question.getScore() + questionVote.getVote());
         updateQuestion(question);
+        return questionVote;
     }
 
     @Transactional

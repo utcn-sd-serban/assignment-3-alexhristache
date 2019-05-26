@@ -19,13 +19,14 @@ class QuestionListPresenter {
         window.location.assign("#/question-details/" + index);
     }
 
-    onFilterByTag(filter) {
-        questionModel.filterByTag(filter);
+    onFilterByTag() {
+        debugger;
+        questionModel.filterByTag();
         window.location.assign("#/tag/");
     }
 
     onFilterByText(filter) {
-        questionModel.filterByText(filter);
+        questionModel.filterByText();
         window.location.assign("#/title/");
     }
 

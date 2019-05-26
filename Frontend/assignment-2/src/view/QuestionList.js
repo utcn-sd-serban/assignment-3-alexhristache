@@ -10,8 +10,8 @@ const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTa
         <input value={filter}
             onChange={e => onChange("filter", e.target.value)} />
         <br />
-        <button onClick={() => onFilterByTag(filter)}>Filter by tag</button>
-        <button onClick={() => onFilterByText(filter)}>Filter by title</button>
+        <button onClick={() => onFilterByTag()}>Filter by tag</button>
+        <button onClick={() => onFilterByText()}>Filter by title</button>
         <br />
         <br /><br />
         <div>

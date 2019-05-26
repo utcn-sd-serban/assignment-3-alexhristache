@@ -10,7 +10,6 @@ const mapModelStateToComponentState = modelState => ({
 export default class SmartQuestionList extends Component {
     constructor() {
         super();
-        debugger;
         this.state = mapModelStateToComponentState(questionModel.state);
         this.listener = modelState => this.setState(mapModelStateToComponentState(modelState));
         questionModel.addListener("change", this.listener);

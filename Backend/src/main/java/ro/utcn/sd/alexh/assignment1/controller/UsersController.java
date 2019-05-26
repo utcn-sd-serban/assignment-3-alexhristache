@@ -22,8 +22,7 @@ public class UsersController {
 
     @GetMapping("/users")
     public List<UserDTO> readAll() {
-        invoker.setCommand(new ReadAllUsersCommand(userManagementService));
-        return ((UserListDTO) invoker.invoke()).getList();
+        return ((UserListDTO) invoker.invoke(new ReadAllUsersCommand(userManagementService))).getList();
     }
 
     @GetMapping("/users/{id}")
@@ -38,7 +37,6 @@ public class UsersController {
 
     @GetMapping("/current-user")
     public UserDTO getLoggedUser() {
-        invoker.setCommand(new ReadLoggedUser(userUserDetailsService));
-        return (UserDTO) invoker.invoke();
+        return (UserDTO) invoker.invoke(new ReadLoggedUser(userUserDetailsService));
     }
 }

@@ -2,12 +2,10 @@ const BASE_URL = "http://localhost:8080";
 
 export default class RestClient {
     constructor(username, password) {
-        debugger;
         this.authorization = "Basic " + btoa(username + ":" + password); 
     }
 
     loadAllQuestions() {
-        debugger;
         return fetch(BASE_URL + "/questions", {
             method: "GET", 
             headers: {
@@ -73,7 +71,6 @@ export default class RestClient {
     }
 
     loadAllUsers() {
-        debugger;
         return fetch(BASE_URL + "/users", {
             method: "GET", 
             headers: {

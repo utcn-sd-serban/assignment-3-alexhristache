@@ -65,4 +65,11 @@ public class Seed implements CommandLineRunner {
             }
         }
     }
+
+    @Transactional
+    public void clear() {
+        questionService.deleteAll();
+        answerService.deleteAll();
+        userService.deleteAll();
+    }
 }

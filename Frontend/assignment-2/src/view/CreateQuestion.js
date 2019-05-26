@@ -5,18 +5,18 @@ const CreateQuestion = ({ title, text, tags, onCreate, onChange }) => (
         <h2>Add Question</h2>
         <div>
             <label>Title: </label>
-            <input value={title}
+            <input value={title} data-cy="questionTitle"
                 onChange={e => onChange("title", e.target.value)} />
             <br />
             <label>Text: </label>
-            <input value={text}
+            <input value={text} data-cy="questionText"
                 onChange={e => onChange("text", e.target.value)} />
             <br />
             <label>Tags: </label>
-            <input value={tags}
+            <input value={tags}  data-cy="questionTags"
                 onChange={e => onChange("tags", e.target.value)} />
             <br />
-            <button onClick={onCreate}>Create</button>
+            <button onClick={onCreate} data-cy="createQuestion">Create</button>
         </div>
     </div>
 );

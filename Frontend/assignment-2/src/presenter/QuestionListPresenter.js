@@ -5,7 +5,6 @@ import userModel from "../model/UserModel";
 class QuestionListPresenter {
 
     onInit() {
-        debugger;
         userModel.loadUsers();
         questionModel.loadQuestions();
         answerModel.loadAnswers();

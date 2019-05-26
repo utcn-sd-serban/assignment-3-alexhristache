@@ -80,6 +80,11 @@ public class AnswerManagementService {
     }
 
     @Transactional
+    public void deleteAll() {
+        listAnswers().forEach(answerDTO -> deleteAnswer(answerDTO.getUserId(), answerDTO.getAnswerId()));
+    }
+
+    @Transactional
     public void editAnswer(Integer userId, Integer answerId, String text) {
         Optional<Answer> maybeAnswer = repositoryFactory.createAnswerRepository().findById(answerId);
         if (maybeAnswer.isPresent()) {

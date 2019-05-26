@@ -14,7 +14,6 @@ const mapModelStateToComponentState = (questionModelState, answerModelState, pro
 export default class SmartQuestionDetails extends Component {
     constructor(props) {
         super(props);
-        debugger;
         this.state = mapModelStateToComponentState(questionModel.state, answerModel.state, this.props);
         this.questionListener = questionModelState => this.setState(mapModelStateToComponentState(questionModelState, answerModel.state, this.props));
         this.answerListener = answerModelState => this.setState(mapModelStateToComponentState(questionModel.state, answerModelState, this.props));

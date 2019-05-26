@@ -3,7 +3,6 @@ import answerModel from "../model/AnswerModel";
 class AnswerPresenter {
 
     onInit(id) {
-        debugger;
         answerModel.loadAnswers();
         answerModel.loadAnswersForQuestion(id);
     }
@@ -13,7 +12,6 @@ class AnswerPresenter {
     }
 
     onRemove(id) {
-        debugger;
         answerModel.deleteAnswer(id);
     }
 
@@ -31,7 +29,6 @@ class AnswerPresenter {
     }
     
     onEdit(id) {
-        debugger;
         answerModel.changeNewAnswerProperty("answerId", id);
         window.location.assign("#/edit-answer");
     }

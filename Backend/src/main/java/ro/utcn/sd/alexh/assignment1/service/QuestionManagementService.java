@@ -1,12 +1,14 @@
 package ro.utcn.sd.alexh.assignment1.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.utcn.sd.alexh.assignment1.dto.QuestionDTO;
 import ro.utcn.sd.alexh.assignment1.entity.Question;
 import ro.utcn.sd.alexh.assignment1.entity.QuestionVote;
 import ro.utcn.sd.alexh.assignment1.entity.Tag;
+import ro.utcn.sd.alexh.assignment1.event.QuestionCreatedEvent;
 import ro.utcn.sd.alexh.assignment1.exception.QuestionNotFoundException;
 import ro.utcn.sd.alexh.assignment1.exception.SelfVoteException;
 import ro.utcn.sd.alexh.assignment1.persistence.api.RepositoryFactory;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class QuestionManagementService {
 
     private final RepositoryFactory repositoryFactory;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public List<QuestionDTO> listQuestions() {
@@ -37,7 +40,9 @@ public class QuestionManagementService {
     @Transactional
     public QuestionDTO addQuestion(QuestionDTO questionDTO) {
         Question question = QuestionDTO.ofDTO(questionDTO);
-        return QuestionDTO.ofEntity(repositoryFactory.createQuestionRepository().save(question));
+        QuestionDTO output = QuestionDTO.ofEntity(repositoryFactory.createQuestionRepository().save(question));
+        eventPublisher.publishEvent(new QuestionCreatedEvent(output));
+        return output;
     }
 
     @Transactional
@@ -104,6 +109,17 @@ public class QuestionManagementService {
         updateQuestion(question);
     }
 
+    @Transactional
+    public void deleteQuestion(Integer questionId) {
+        Question question = findQuestionByIdInside(questionId);
+        repositoryFactory.createQuestionRepository().remove(question);
+    }
+
+    @Transactional
+    public void deleteAll() {
+        listQuestions().forEach(questionDTO -> deleteQuestion(questionDTO.getQuestionId()));
+    }
+
 
     // Methods below are only used within this class
 
@@ -119,4 +135,5 @@ public class QuestionManagementService {
     private Question findQuestionByIdInside(Integer id) {
         return repositoryFactory.createQuestionRepository().findById(id).orElseThrow(QuestionNotFoundException::new);
     }
+
 }

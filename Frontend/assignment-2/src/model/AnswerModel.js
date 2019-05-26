@@ -54,7 +54,6 @@ class AnswerModel extends EventEmitter {
     }
 
     findByUsername(username) {
-        debugger;
         for (let answer of this.state.answers) {
             if (answer.user === username) {
                 return answer;
@@ -97,7 +96,6 @@ class AnswerModel extends EventEmitter {
     }
 
     addAnswer(answerId, questionId, user, text, creationDateTime, score) {
-        debugger;
         return client.createAnswer(answerId, questionId, user, text, creationDateTime, score)
             .then(answer => {
                 this.state = {

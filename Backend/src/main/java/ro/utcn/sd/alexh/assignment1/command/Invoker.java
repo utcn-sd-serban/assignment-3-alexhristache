@@ -11,14 +11,13 @@ import java.util.List;
 @Component
 public class Invoker {
 
-    private Command command;
     private List<Command> commandHistory;
 
     public Invoker() {
         commandHistory = new ArrayList<>();
     }
 
-    public DTO invoke() {
+    public DTO invoke(Command command) {
         commandHistory.add(command);
         return command.execute();
     }

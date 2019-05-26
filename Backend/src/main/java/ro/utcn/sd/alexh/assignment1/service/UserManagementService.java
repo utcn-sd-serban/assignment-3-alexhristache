@@ -46,6 +46,18 @@ public class UserManagementService {
         return UserDTO.ofEntity(maybeUser.orElseThrow(UserNotFoundException::new));
     }
 
+
+    @Transactional
+    public void deleteUser(Integer userId) {
+        User user = UserDTO.ofDTO(findUserById(userId));
+        repositoryFactory.createUserRepository().remove(user);
+    }
+
+    @Transactional
+    public void deleteAll() {
+        listUsers().forEach(userDTO -> deleteUser(userDTO.getUserId()));
+    }
+
     @Transactional
     public UserDTO findUserByUsername(String username) {
         return UserDTO.ofEntity(repositoryFactory.createUserRepository().findByUsername(username).orElseThrow(UserNotFoundException::new));

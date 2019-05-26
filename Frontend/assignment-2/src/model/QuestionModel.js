@@ -1,5 +1,5 @@
 import { EventEmitter } from "events";
-import userModel, { client } from "./UserModel";
+import userModel, { client, listener } from "./UserModel";
 
 class QuestionModel extends EventEmitter {
     constructor() {
@@ -78,14 +78,16 @@ class QuestionModel extends EventEmitter {
     }
 
     addQuestion(questionId, user, username, title, text, creationDateTime, tags, score) {
-        return client.createQuestion(questionId, user, username, title, text, creationDateTime, score, tags)
-            .then(question => {
-                this.state = {
-                    ...this.state,
-                    questions: this.state.questions.concat([question])
-                };
-                this.emit("change", this.state);
-            });
+        return client.createQuestion(questionId, user, username, title, text, creationDateTime, score, tags);
+            // .then(question => this.appendQuestion(question));
+    }
+
+    appendQuestion(question) {
+        this.state = {
+            ...this.state,
+            questions: this.state.questions.concat([question])
+        };
+        this.emit("change", this.state);
     }
 
     changeNewQuestionProperty(property, value) {
@@ -115,6 +117,12 @@ class QuestionModel extends EventEmitter {
         this.emit("change", this.state);
     }
 }
+
+listener.on("event", event => {
+    if (event.type === "QUESTION_CREATED") {
+        questionModel.appendQuestion(event.question);
+    }
+});
 
 const questionModel = new QuestionModel();
 

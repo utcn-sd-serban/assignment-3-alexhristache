@@ -4,7 +4,7 @@ const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTa
     <div>
         <h2>Questions</h2>
         <br />
-        <button onClick={onCreateQuestion}>Add Question</button>
+        <button onClick={onCreateQuestion} data-cy="addQuestion">Add Question</button>
         <br />
         <br />
         <input value={filter}
@@ -32,7 +32,7 @@ const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTa
                 <tbody>
                     {
                         questions.map((question) => (
-                            <tr key={question.questionId}>
+                            <tr key={question.questionId} data-cy="question">
                                 <td>{question.username}</td>
                                 <td>{question.title}</td>
                                 <td>{question.text}</td>

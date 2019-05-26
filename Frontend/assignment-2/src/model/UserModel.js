@@ -1,7 +1,8 @@
 import { EventEmitter } from "events";
 import RestClient from "../rest/RestClient";
+import WebSocketListener from "../ws/WebSocketListener";
 
-export var client;
+export var client = new RestClient("user109", "123"), listener = new WebSocketListener("", "");
 
 class UserModel extends EventEmitter {
     constructor() {
@@ -22,7 +23,6 @@ class UserModel extends EventEmitter {
     }
     
     findByUsername(username) {
-        debugger;
         for (let user of this.state.users) {
             if (user.username === username) {
                 return user.userId;
@@ -31,7 +31,6 @@ class UserModel extends EventEmitter {
     }
 
     findUsernameById(id) {
-        debugger;
         for (let user of this.state.users) {
             if (user.userId == id) {
                 return user.username;
@@ -48,8 +47,8 @@ class UserModel extends EventEmitter {
     }
 
     login() {
-        debugger;
         client = new RestClient(this.state.inputUsername, this.state.inputPassword);
+        listener = new WebSocketListener(this.state.inputUsername, this.state.inputPassword);
         this.state.loggedUser = this.state.inputUsername;
         this.emit("change", this.state);
     }

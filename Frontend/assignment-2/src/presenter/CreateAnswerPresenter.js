@@ -21,7 +21,6 @@ class CreateAnswerPresenter {
     }
 
     onEditSubmit(id) {
-        debugger;
         let answer = answerModel.findById(id);
         answerModel.editAnswer(id, answer.questionId, answer.userId, answerModel.state.newAnswer.text, answer.creationDateTime, answer.score);
         window.location.assign("#/question-details/" + id);

@@ -20,13 +20,12 @@ class QuestionListPresenter {
     }
 
     onFilterByTag() {
-        debugger;
         questionModel.filterByTag();
         window.location.assign("#/tag/");
     }
 
-    onFilterByText(filter) {
-        questionModel.filterByText();
+    onfilterByTitle() {
+        questionModel.filterByTitle();
         window.location.assign("#/title/");
     }
 

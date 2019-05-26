@@ -51,38 +51,31 @@ public class QuestionManagementService {
     }
 
     @Transactional
-    public List<QuestionDTO> listQuestionsByTag(String tagName) {
-        List<Question> allQuestions = listQuestionsInside();
-        List<Question> filteredQuestions = new LinkedList<>();
+    public List<QuestionDTO> listQuestionsByTag(String tag) {
+        List<QuestionDTO> allQuestions = listQuestions();
+        List<QuestionDTO> filteredQuestions = new LinkedList<>();
 
-        for (Question question : allQuestions) {
-            for (Tag iteratingTag : question.getTags()) {
-                if (iteratingTag.getName().equals(tagName)) {
-                    filteredQuestions.add(question);
-                    break;
-                }
-            }
-        }
-
-        return filteredQuestions.stream()
-                .map(QuestionDTO::ofEntity)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<QuestionDTO> listQuestionsByText(String text) {
-        List<Question> allQuestions = listQuestionsInside();
-        List<Question> filteredQuestions = new LinkedList<>();
-
-        for (Question question : allQuestions) {
-            if (question.getTitle().toLowerCase().contains(text.toLowerCase())) {
+        for (QuestionDTO question : allQuestions) {
+            if (question.getTags().toLowerCase().contains(tag.toLowerCase())) {
                 filteredQuestions.add(question);
             }
         }
 
-        return filteredQuestions.stream()
-                .map(QuestionDTO::ofEntity)
-                .collect(Collectors.toList());
+        return filteredQuestions;
+    }
+
+    @Transactional
+    public List<QuestionDTO> listQuestionsByTitle(String title) {
+        List<QuestionDTO> allQuestions = listQuestions();
+        List<QuestionDTO> filteredQuestions = new LinkedList<>();
+
+        for (QuestionDTO question : allQuestions) {
+            if (question.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                filteredQuestions.add(question);
+            }
+        }
+
+        return filteredQuestions;
     }
 
     @Transactional
@@ -92,22 +85,23 @@ public class QuestionManagementService {
 
     @Transactional
     public QuestionVote addVote(QuestionVote questionVote) {
-
         if (questionVote.getUserId().equals(findQuestionByIdInside(questionVote.getQuestionId()).getUserId())) {
             throw new SelfVoteException();
+        } else {
+            Question question = findQuestionByIdInside(questionVote.getQuestionId());
+            question.setScore(question.getScore() + questionVote.getVote());
+            updateQuestion(question);
         }
-
-        Question question = findQuestionByIdInside(questionVote.getQuestionId());
-        question.setScore(question.getScore() + questionVote.getVote());
-        updateQuestion(question);
         return questionVote;
     }
 
     @Transactional
     public void removeVote(QuestionVote questionVote) {
         Question question = findQuestionByIdInside(questionVote.getQuestionId());
-        question.setScore(question.getScore() - questionVote.getVote());
-        updateQuestion(question);
+        if (!questionVote.getUserId().equals(question.getUserId())) {
+            question.setScore(question.getScore() - questionVote.getVote());
+            updateQuestion(question);
+        }
     }
 
     @Transactional

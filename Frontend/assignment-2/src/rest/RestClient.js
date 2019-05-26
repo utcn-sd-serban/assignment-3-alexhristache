@@ -15,7 +15,7 @@ export default class RestClient {
     }
 
     filterQuestionsByTitle(title) {
-        return fetch(BASE_URL + "/questions?title=" + title, {
+        return fetch(BASE_URL + "/questions/title=" + title, {
             method: "GET", 
             headers: {
                 "Authorization": this.authorization
@@ -24,7 +24,7 @@ export default class RestClient {
     }
 
     filterQuestionsByTag(tag) {
-        return fetch(BASE_URL + "/questions?tag=" + tag, {
+        return fetch(BASE_URL + "/questions/tag=" + tag, {
             method: "GET", 
             headers: {
                 "Authorization": this.authorization

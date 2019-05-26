@@ -35,12 +35,12 @@ public class QuestionsController {
         return (QuestionDTO) invoker.invoke(new ReadQuestionCommand(id, questionManagementService));
     }
 
-    @GetMapping("/questions?title={title}")
+    @GetMapping("/questions/title={title}")
     public List<QuestionDTO> filterByTitle(@PathVariable String title) {
-        return questionManagementService.listQuestionsByText(title);
+        return questionManagementService.listQuestionsByTitle(title);
     }
 
-    @GetMapping("/questions?tag={tag}")
+    @GetMapping("/questions/tag={tag}")
     public List<QuestionDTO> filterByTag(@PathVariable String tag) {
         return questionManagementService.listQuestionsByTag(tag);
     }

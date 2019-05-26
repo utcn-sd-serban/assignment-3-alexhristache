@@ -27,7 +27,7 @@ export default class SmartQuestionList extends Component {
                 onCreateQuestion={questionListPresenter.onCreateQuestion}
                 onViewDetails={questionListPresenter.onViewDetails}
                 onFilterByTag={questionListPresenter.onFilterByTag}
-                onFilterByText={questionListPresenter.onFilterByText}
+                onfilterByTitle={questionListPresenter.onfilterByTitle}
                 onChange={questionListPresenter.onChange}
                 filter={this.state.filter}
                 onUpvote={questionListPresenter.onUpvote}

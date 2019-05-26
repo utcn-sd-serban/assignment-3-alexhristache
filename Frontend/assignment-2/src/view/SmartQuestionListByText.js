@@ -29,7 +29,7 @@ export default class SmartQuestionListByText extends Component {
                 onChange={questionListPresenter.onChange}
                 filter={this.state.filter}
                 onFilterByTag={questionListPresenter.onFilterByTag}
-                onFilterByText={questionListPresenter.onFilterByText}
+                onfilterByTitle={questionListPresenter.onfilterByTitle}
                 onUpvote={questionListPresenter.onUpvote}
                 onDownvote={questionListPresenter.onDownvote}
             />

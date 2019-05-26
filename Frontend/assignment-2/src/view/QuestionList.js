@@ -1,6 +1,6 @@
 import React from "react";
 
-const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTag, onChange, onFilterByText, filter, onUpvote, onDownvote }) => (
+const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTag, onChange, onfilterByTitle, filter, onUpvote, onDownvote }) => (
     <div>
         <h2>Questions</h2>
         <br />
@@ -11,7 +11,7 @@ const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTa
             onChange={e => onChange("filter", e.target.value)} />
         <br />
         <button onClick={() => onFilterByTag()}>Filter by tag</button>
-        <button onClick={() => onFilterByText()}>Filter by title</button>
+        <button onClick={() => onfilterByTitle()}>Filter by title</button>
         <br />
         <br /><br />
         <div>

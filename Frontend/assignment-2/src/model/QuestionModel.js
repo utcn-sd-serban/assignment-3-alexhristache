@@ -57,7 +57,7 @@ class QuestionModel extends EventEmitter {
         });
     }
 
-    filterByText() {
+    filterByTitle() {
         client.filterQuestionsByTitle(this.state.filter).then(questions => {
             for (let question of questions) {
                 question.username = userModel.findUsernameById(question.user);

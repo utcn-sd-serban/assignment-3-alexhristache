@@ -118,8 +118,10 @@ public class AnswerManagementService {
     @Transactional
     public void removeVote(AnswerVote answerVote) {
         Answer answer = findAnswerByIdInside(answerVote.getAnswerId());
-        answer.setScore(answer.getScore() - answerVote.getVote());
-        updateAnswer(answer);
+        if (!answerVote.getUserId().equals(answer.getUserId())) {
+            answer.setScore(answer.getScore() - answerVote.getVote());
+            updateAnswer(answer);
+        }
     }
 
     private Answer findAnswerByIdInside(Integer id) {

@@ -1,0 +1,54 @@
+import React from "react";
+
+const QuestionList = ({ questions, onCreateQuestion, onViewDetails, onFilterByTag, onChange, onfilterByTitle, filter, onUpvote, onDownvote }) => (
+    <div>
+        <h2>Questions</h2>
+        <br />
+        <button onClick={onCreateQuestion} data-cy="addQuestion">Add Question</button>
+        <br />
+        <br />
+        <input value={filter}
+            onChange={e => onChange("filter", e.target.value)} />
+        <br />
+        <button onClick={() => onFilterByTag()}>Filter by tag</button>
+        <button onClick={() => onfilterByTitle()}>Filter by title</button>
+        <br />
+        <br /><br />
+        <div>
+            <table border='1'>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Title</th>
+                        <th>Text</th>
+                        <th>Creation Date/Time</th>
+                        <th>Tags</th>
+                        <th>Score</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        questions.map((question) => (
+                            <tr key={question.questionId} data-cy="question">
+                                <td>{question.username}</td>
+                                <td>{question.title}</td>
+                                <td>{question.text}</td>
+                                <td>{question.creationDateTime}</td>
+                                <td>{question.tags}</td>
+                                <td>{question.score}</td>
+                                <td><button onClick={() => onViewDetails(question.questionId)}>View Details</button></td>
+                                <td><button onClick={() => onUpvote(question.questionId)}>Upvote</button></td>
+                                <td><button onClick={() => onDownvote(question.questionId)}>Downvote</button></td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+);
+
+export default QuestionList;

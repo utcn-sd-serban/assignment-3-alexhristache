@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "781c5adf-8add-4a34-8b34-884fd7d25f8a",
+		"name": "Assignment-3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "88d31ae9-ef9c-4156-8211-765f4726b3e2",
+						"exec": [
+							"pm.test(\"Response status is ok\", function() {",
+							"   pm.response.to.be.ok;",
+							"});",
+							"",
+							"pm.test(\"There are 10 questions\", function() {",
+							"    var questions = pm..response.json();",
+							"    pm.expects(questions.length).to.be.equal(10);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user104",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"questions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GET",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/questions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"questions"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Set-Cookie",
+							"value": "JSESSIONID=766AB09053EF051962121D50F21C2FA9; Path=/; HttpOnly"
+						},
+						{
+							"key": "WWW-Authenticate",
+							"value": "Basic realm=\"Realm\""
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 09 May 2019 18:35:26 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": \"2019-05-09T18:35:26.281+0000\",\n    \"status\": 401,\n    \"error\": \"Unauthorized\",\n    \"message\": \"Unauthorized\",\n    \"path\": \"/questions\"\n}"
+				}
+			]
+		},
+		{
+			"name": "POST",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user103",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"questionId\": 143,\n    \"user\": 102,\n    \"username\": \"user102\",\n    \"title\": \"Title of inserted by 102 through websocket\",\n    \"text\": \"Blabla text\",\n    \"creationDateTime\": \"2019-05-20 16:52:11.579\",\n    \"score\": 2,\n    \"tags\": \"tag140, tag121\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23dd9a5c-02d4-4b24-91b5-ddca24717f24",
+						"exec": [
+							"pm.test(\"Response status is 500\", function() {",
+							"   pm.response.to.have.status(500);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "user103",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"answerId\": 123,\n    \"questionId\": 103,\n    \"userId\": 103,\n    \"text\": \"Answer text 103 altered\",\n    \"creationDateTime\": \"2019-05-19 22:34:46.049\",\n    \"score\": 0\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/answers/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"answers",
+						"123"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "PUT",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answerId\": 103,\n    \"questionId\": 103,\n    \"userId\": 103,\n    \"text\": \"Answer text 103 altered\",\n    \"creationDateTime\": \"2019-05-19 22:34:46.049\",\n    \"score\": 0\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/answers/103",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"answers",
+								"103"
+							]
+						}
+					},
+					"status": "Method Not Allowed",
+					"code": 405,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Allow",
+							"value": "GET, DELETE, PUT"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, no-store, max-age=0, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "Expires",
+							"value": "0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 19 May 2019 19:50:29 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"timestamp\": \"2019-05-19T19:50:29.811+0000\",\n    \"status\": 405,\n    \"error\": \"Method Not Allowed\",\n    \"message\": \"Request method 'POST' not supported\",\n    \"path\": \"/answers/103\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Reseed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "56ce6228-f706-4877-9626-4c06576949ae",
+						"exec": [
+							"pm.test(\"Response status is ok\", function() {",
+							"   pm.response.to.be.ok;",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/test/reseed",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test",
+						"reseed"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
